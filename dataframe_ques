@@ -1,0 +1,165 @@
+Perfect 👍 yehi type ke questions exam me aayenge. Main tujhe **seedha code + simple samajh** de raha hoon — no bakwaas theory.
+
+---
+
+# 🔹 4. Data Filtering (Pandas)
+
+## ✅ 1. Display all days where Plant_Health_Index > 80
+
+```python
+df[df["Plant_Health_Index"] > 80]
+```
+
+👉 Matlab: sirf wahi rows dikhao jaha value 80 se zyada hai
+
+---
+
+## ✅ 2. Display records where Rainfall = 0
+
+```python
+df[df["Rainfall"] == 0]
+```
+
+👉 `==` use hota hai check karne ke liye
+
+---
+
+## ✅ 3. Find the day with highest temperature
+
+```python
+df[df["Temperature"] == df["Temperature"].max()]
+```
+
+👉 `.max()` → sabse badi value
+👉 uske equal wali row nikaal li
+
+---
+
+## ✅ 4. Average Plant Health Index when rainfall > 3
+
+```python
+df[df["Rainfall"] > 3]["Plant_Health_Index"].mean()
+```
+
+👉 Pehle filter kiya
+👉 phir mean nikala
+
+---
+
+# 🔹 5. Aggregation Operations
+
+## ✅ 1. Average soil moisture for each Health_Status
+
+```python
+df.groupby("Health_Status")["Soil_Moisture"].mean()
+```
+
+👉 group bana → phir average nikala
+
+---
+
+## ✅ 2. Count how many days fall into each Moisture_Level
+
+```python
+df["Moisture_Level"].value_counts()
+```
+
+👉 count karta hai kitni baar "Low", "Medium", "High"
+
+---
+
+## ✅ 3. Correlation between temperature and plant health
+
+```python
+df["Temperature"].corr(df["Plant_Health_Index"])
+```
+
+👉 relation check karta hai
+👉 +1 → strong relation
+👉 0 → no relation
+
+---
+
+# 🔹 6. Data Visualization (Matplotlib)
+
+⚠️ Exam me **code likhna enough hota hai**, graph draw nahi karna hota
+
+---
+
+## ✅ 1. Line Plot (Day vs Plant Health Index)
+
+```python
+import matplotlib.pyplot as plt
+
+plt.plot(df["Day"], df["Plant_Health_Index"])
+plt.xlabel("Day")
+plt.ylabel("Plant Health Index")
+plt.title("Day vs Plant Health")
+plt.show()
+```
+
+---
+
+## ✅ 2. Bar Plot (Day vs Soil Moisture)
+
+```python
+plt.bar(df["Day"], df["Soil_Moisture"])
+plt.xlabel("Day")
+plt.ylabel("Soil Moisture")
+plt.title("Day vs Soil Moisture")
+plt.show()
+```
+
+---
+
+## ✅ 3. Scatter Plot (Temperature vs Plant Health)
+
+```python
+plt.scatter(df["Temperature"], df["Plant_Health_Index"])
+plt.xlabel("Temperature")
+plt.ylabel("Plant Health Index")
+plt.title("Temp vs Health")
+plt.show()
+```
+
+---
+
+# 🧠 SHORTCUT MEMORY TRICK (IMPORTANT)
+
+Filtering:
+
+```
+df[condition]
+```
+
+Aggregation:
+
+```
+groupby + mean()
+value_counts()
+corr()
+```
+
+Visualization:
+
+```
+plot()
+bar()
+scatter()
+```
+
+---
+
+# 🔥 FINAL TIP (EXAM HACK)
+
+Agar tu ye 3 cheeze yaad kar le:
+
+✔️ df[condition]
+✔️ groupby()
+✔️ plt.plot/bar/scatter
+
+👉 Toh **90% paper ho jayega**
+
+---
+
+Agar chaho toh main tujhe **ek full mock question paper (same pattern)** de deta hoon jisme tu khud solve karegi aur main check karunga 😏💯
