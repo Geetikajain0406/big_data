@@ -1,0 +1,2 @@
+df = sns.load_dataset("iris")
+print(df.head())
