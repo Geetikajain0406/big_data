@@ -1,0 +1,138 @@
+Bilkul sahi pakda tune 👍 — **data visualization me sirf graph nahi**, uske saath **conditions, filtering, grouping, aur logic** bhi aata hai.
+
+Main tujhe exam-oriented tareeke se samjhata hoon 👇
+
+---
+
+# 🔥 Visualization + Conditions = Real EDA
+
+## 🔹 1. Filtering before plotting
+
+Kabhi question aata hai:
+
+👉 *“Plot only ratings ≥ 4”*
+
+```python
+high_rating = df[df['rating'] >= 4]
+
+sns.countplot(x='rating', data=high_rating)
+plt.show()
+```
+
+📌 Idea: **pehle data filter → fir plot**
+
+---
+
+## 🔹 2. Multiple conditions
+
+👉 *“Verified purchases with rating ≥ 4”*
+
+```python
+filtered = df[(df['verified_purchase'] == "Yes") & (df['rating'] >= 4)]
+
+sns.countplot(x='rating', data=filtered)
+plt.show()
+```
+
+📌 Use:
+
+* `&` → AND
+* `|` → OR
+
+---
+
+## 🔹 3. Grouping (VERY IMPORTANT 🔥)
+
+👉 *“Average rating by verification status”*
+
+```python
+avg = df.groupby('verified_purchase')['rating'].mean()
+
+avg.plot(kind='bar')
+plt.show()
+```
+
+📌 Yeh bahut common exam question hai
+
+---
+
+## 🔹 4. Conditional coloring (advanced but useful)
+
+```python
+sns.boxplot(x='verified_purchase', y='rating', data=df)
+plt.show()
+```
+
+👉 Automatically categories compare karta hai
+
+---
+
+## 🔹 5. Using hue (MOST IMPORTANT 🔥🔥)
+
+👉 *Compare 2 variables in one graph*
+
+```python
+sns.countplot(x='rating', hue='verified_purchase', data=df)
+plt.show()
+```
+
+📌 Isme:
+
+* x → rating
+* hue → extra category (color split)
+
+---
+
+## 🔹 6. Derived feature + visualization
+
+👉 *Sentiment ke basis pe graph*
+
+```python
+sns.countplot(x='sentiment_label', data=df)
+plt.show()
+```
+
+---
+
+## 🔹 7. Condition inside plotting (shortcut)
+
+```python
+sns.countplot(x='rating', data=df[df['rating'] <= 2])
+plt.show()
+```
+
+---
+
+# 🧠 Exam Pattern Samajh le:
+
+Question kuch aise hote hain:
+
+| Question Type        | Kya karna hai        |
+| -------------------- | -------------------- |
+| "Plot distribution"  | countplot / histplot |
+| "Compare categories" | hue / groupby        |
+| "Apply condition"    | filtering            |
+| "Relationship"       | scatter / boxplot    |
+
+---
+
+# 🔥 Pro Tip (VERY IMPORTANT)
+
+Visualization ka flow yaad rakh:
+
+👉 **Filter → Transform → Plot**
+
+Example:
+
+```python
+df[df['rating'] >= 4].groupby('verified_purchase')['rating'].mean().plot()
+```
+
+---
+
+Agar tu chahe toh main tujhe:
+✅ **10 expected exam questions with solutions**
+✅ **Common mistakes list (jo sab galat karte hain)**
+✅ **Viva questions (teacher kya puchta hai)**
+
+bhi de sakta hoon 🔥
