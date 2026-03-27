@@ -1,0 +1,80 @@
+Good question 👍 — both are used for mean, but **context matters**.
+
+### 🔹 1. `df.mean()`
+
+* This is a **Pandas DataFrame method**
+* It calculates mean **column-wise (default)**
+
+```python
+df.mean()
+```
+
+👉 Output:
+
+* Mean of each **numeric column**
+* Ignores non-numeric columns automatically
+
+✔ Example:
+
+```python
+import pandas as pd
+
+df = pd.DataFrame({
+    "A": [1, 2, 3],
+    "B": [4, 5, 6]
+})
+
+df.mean()
+```
+
+Output:
+
+```
+A    2.0
+B    5.0
+```
+
+---
+
+### 🔹 2. `np.mean()`
+
+* This is from **NumPy**
+* Works on arrays, lists, or even DataFrame values
+
+```python
+import numpy as np
+np.mean(df)
+```
+
+👉 But here:
+
+* It may behave differently (tries to convert to array)
+* Not preferred directly on DataFrame
+
+✔ Better use:
+
+```python
+np.mean(df["A"])
+```
+
+---
+
+### 🔥 Key Difference
+
+| Feature                   | `df.mean()` | `np.mean()`               |
+| ------------------------- | ----------- | ------------------------- |
+| Library                   | Pandas      | NumPy                     |
+| Works on                  | DataFrame   | Array/List                |
+| Default behavior          | Column-wise | Whole data (if flattened) |
+| Recommended for DataFrame | ✅ Yes       | ❌ Not directly            |
+
+---
+
+### 💯 Interview / Exam Answer
+
+👉 Use **`df.mean()` for DataFrame**
+👉 Use **`np.mean()` for arrays/lists**
+
+---
+
+If you want, I can give you **tricky exam questions** on Pandas vs NumPy (yeh bahut aate hain 😏)**
