@@ -1,0 +1,28 @@
+import string
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+import nltk
+
+nltk.download('punkt')
+nltk.download('stopwords')
+
+stop_words = set(stopwords.words('english'))
+
+def clean_text(text):
+    # Lowercase
+    text = text.lower()
+    
+    # Remove punctuation
+    text = text.translate(str.maketrans('', '', string.punctuation))
+    
+    # Tokenization
+    words = word_tokenize(text)
+    
+    # Remove stopwords
+    words = [w for w in words if w not in stop_words]
+    
+    return words
+
+df['cleaned_text'] = df['review_text'].apply(clean_text)
+
+print(df[['review_text', 'cleaned_text']])
