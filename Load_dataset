@@ -1,0 +1,95 @@
+Yeh line thodi powerful hai 💪 — ek baar samajh aa gayi toh kaafi kaam aayegi.
+
+
+---
+
+🔹 Code:
+
+df["Marks"] = df["Marks"].apply(lambda x: x + 2)
+
+
+---
+
+🔥 Step-by-step samajh:
+
+🔹 1. df["Marks"]
+
+👉 Marks column select kiya
+
+
+---
+
+🔹 2. .apply(...)
+
+👉 Har value pe same operation apply karega
+
+
+---
+
+🔹 3. lambda x: x + 2
+
+👉 Yeh ek anonymous function hai (chhota function bina naam ka)
+
+Matlab:
+
+har value ko x maan lo
+
+usme +2 add karo
+
+
+
+---
+
+📦 Example:
+
+Pehle:
+
+Marks
+90
+85
+70
+
+Apply ke baad:
+
+92
+87
+72
+
+
+---
+
+🔹 4. df["Marks"] = ...
+
+👉 Updated values ko wapas Marks column me store kar diya
+
+
+---
+
+🎯 Simple samajh:
+
+👉 “Marks column ke har number me 2 add kar do”
+
+
+---
+
+💡 One-line yaad rakh:
+
+👉 apply(lambda x: ...) = har value pe operation lagana
+
+
+---
+
+🔥 Exam/Viva tip:
+
+lambda = short function
+
+apply() = element-wise operation
+
+
+
+---
+
+Agar tu chahe toh main: 👉 apply vs map vs loop ka difference
+👉 ya tricky questions
+
+bhi kara deta hoon 👍
