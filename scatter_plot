@@ -1,0 +1,5 @@
+plt.scatter(df['review_length'], df['rating'])
+plt.xlabel("Review Length")
+plt.ylabel("Rating")
+plt.title("Review Length vs Rating")
+plt.show()
