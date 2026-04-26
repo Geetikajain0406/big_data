@@ -1,0 +1,137 @@
+# ================================
+# FRAUD DETECTION PROJECT
+# ================================
+
+# 🔹 1. Import Libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, classification_report, roc_curve, auc
+
+from imblearn.over_sampling import SMOTE
+
+# 🔹 2. Load Dataset
+# (Make sure creditcard.csv is in same folder)
+df = pd.read_csv("creditcard.csv")
+
+print("First 5 rows:")
+print(df.head())
+
+# 🔹 3. Basic Data Understanding
+print("\nShape of dataset:", df.shape)
+print("\nInfo:")
+print(df.info())
+print("\nDescription:")
+print(df.describe())
+
+# 🔹 4. Check Class Distribution
+print("\nClass Distribution:")
+print(df['Class'].value_counts())
+
+# 🔹 5. Data Cleaning
+print("\nMissing values:\n", df.isnull().sum())
+print("\nDuplicate rows:", df.duplicated().sum())
+
+df = df.drop_duplicates()
+
+# 🔹 6. Feature Engineering
+
+# Convert Time → Hour
+df['Hour'] = df['Time'] // 3600
+
+# Scale Amount
+scaler = StandardScaler()
+df['Amount_scaled'] = scaler.fit_transform(df[['Amount']])
+
+# Transaction frequency per hour
+df['txn_freq'] = df.groupby('Hour')['Amount'].transform('count')
+
+# Drop original columns
+df = df.drop(['Time', 'Amount'], axis=1)
+
+# 🔹 7. Save Clean Data
+df.to_csv("cleaned_data.csv", index=False)
+
+# 🔹 8. Exploratory Data Analysis (EDA)
+
+# Class imbalance
+plt.figure()
+sns.countplot(x='Class', data=df)
+plt.title("Fraud vs Normal Transactions")
+plt.show()
+
+# Amount distribution
+plt.figure()
+sns.histplot(df[df['Class'] == 0]['Amount_scaled'], bins=50, label='Normal', kde=True)
+sns.histplot(df[df['Class'] == 1]['Amount_scaled'], bins=50, label='Fraud', kde=True)
+plt.legend()
+plt.title("Amount Distribution")
+plt.show()
+
+# Hour analysis
+plt.figure()
+sns.histplot(df[df['Class'] == 1]['Hour'], bins=24)
+plt.title("Fraud Transactions by Hour")
+plt.show()
+
+# Correlation heatmap
+plt.figure(figsize=(10, 6))
+sns.heatmap(df.corr(), cmap='coolwarm')
+plt.title("Correlation Heatmap")
+plt.show()
+
+# 🔹 9. Prepare Data for ML
+X = df.drop('Class', axis=1)
+y = df['Class']
+
+# 🔹 10. Handle Imbalance using SMOTE
+smote = SMOTE(random_state=42)
+X_res, y_res = smote.fit_resample(X, y)
+
+print("\nAfter SMOTE:")
+print(pd.Series(y_res).value_counts())
+
+# 🔹 11. Train-Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X_res, y_res, test_size=0.2, random_state=42
+)
+
+# 🔹 12. Model Training
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+# 🔹 13. Prediction
+y_pred = model.predict(X_test)
+y_prob = model.predict_proba(X_test)[:, 1]
+
+# 🔹 14. Evaluation
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+print("\nConfusion Matrix:\n", cm)
+
+# Classification Report
+print("\nClassification Report:\n")
+print(classification_report(y_test, y_pred))
+
+# 🔹 15. ROC Curve
+fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+roc_auc = auc(fpr, tpr)
+
+plt.figure()
+plt.plot(fpr, tpr, label="AUC = %0.2f" % roc_auc)
+plt.plot([0, 1], [0, 1], linestyle='--')
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.legend()
+plt.show()
+
+# 🔹 16. Final Message
+print("\nModel training and evaluation completed successfully!")
