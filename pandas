@@ -1,0 +1,306 @@
+Sab kuch padh liya bhai — text bhi, images bhi. Ab teri language mein, ekdum simple aur practical — kal paper ke liye ready kar deta hun! 🔥
+
+---
+
+# 🐼 Pandas Complete Notes — Kal Paper Ke Liye
+
+---
+
+## 1. Pandas Kya Hai?
+
+Pandas ek Python library hai jo **data manipulation aur analysis** ke liye use hoti hai. Isme do main "data structures" hain jinka naam yaad rakhna zaroori hai.
+
+---
+
+## 2. Install aur Import
+
+```python
+pip install pandas        # Terminal mein
+!pip install pandas       # Jupyter Notebook mein
+
+import pandas as pd       # Always 'pd' as shortcut
+```
+
+---
+
+## 3. 🧱 Core Components — Series aur DataFrame
+
+**Series** = ek single column (1D)
+**DataFrame** = ek poori table — multiple columns ka collection (2D)
+
+Slide ki image se smajh:
+
+> DataFrame ek Excel sheet jaisi hoti hai — rows aur columns hote hain.
+> Har column ek **Series** hota hai.
+
+**Data Structures Table (Slide 5 se):**
+
+| Structure | Dimensions | Description |
+|---|---|---|
+| Series | 1D | Ek column, same type data |
+| DataFrame | 2D | Table — alag-alag type columns |
+| Panel | 3D | DataFrames ka container (rare) |
+
+---
+
+## 4. DataFrame Banana — `pd.DataFrame()`
+
+**Syntax:**
+```python
+pd.DataFrame(data, index, columns, dtype, copy)
+```
+
+**Parameters:**
+- `data` — list, dict, ndarray, ya dusra DataFrame
+- `index` — row labels (default: 0, 1, 2...)
+- `columns` — column labels
+- `dtype` — data type
+- `copy` — data copy karna hai ya nahi (default False)
+
+---
+
+## 5. 🛠️ DataFrame Banane ke Tarike (Practical)
+
+### ▶️ Method 1: Dict se
+```python
+import pandas as pd
+
+data = {'apples': [3, 2, 0, 1], 'oranges': [0, 3, 7, 2]}
+df = pd.DataFrame(data)
+```
+> Dictionary ki key = column name, value = column data
+
+### ▶️ Method 2: Custom Index ke saath
+```python
+df = pd.DataFrame(data, index=['Ahmad', 'Ali', 'Rashed', 'Hamza'])
+df.loc['Ali']   # Ali ka data access karo
+```
+
+**Output (Slide 9 image se):**
+```
+       apples  oranges
+Ahmad       3        0
+Ali         2        3
+Rashed      0        7
+Hamza       1        2
+```
+
+### ▶️ Method 3: List se
+```python
+data = [1, 2, 3, 10, 20, 30]
+df = pd.DataFrame(data)
+```
+
+### ▶️ Method 4: List of Dicts se
+```python
+data = [{'a': 1, 'b': 2}, {'a': 5, 'b': 10, 'c': 20}]
+df = pd.DataFrame(data)
+# 'c' column mein NaN aayega pehli row mein kyunki pehle dict mein 'c' nahi tha
+```
+
+### ▶️ Method 5: Dict of Series se
+```python
+d = {
+    'one': pd.Series([1, 2, 3], index=['a', 'b', 'c']),
+    'two': pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd'])
+}
+df = pd.DataFrame(d)
+# 'd' row mein 'one' column NaN hoga kyunki Series mein 'd' nahi tha
+```
+
+### ▶️ Method 6: `from_dict()` + `orient` keyword
+```python
+# Default — keys = columns
+data = {'col_1': [3, 2, 1, 0], 'col_2': ['a', 'b', 'c', 'd']}
+pd.DataFrame.from_dict(data)
+
+# orient='index' — keys = rows
+data = {'row_1': [3, 2, 1, 0], 'row_2': ['a', 'b', 'c', 'd']}
+pd.DataFrame.from_dict(data, orient='index', columns=['A','B','C','D'])
+```
+
+---
+
+## 6. 📂 File se DataFrame Load Karna
+
+### CSV se:
+```python
+df = pd.read_csv('dataset.csv')
+df = pd.read_csv('dataset.csv', index_col=0)  # pehla column index banega
+```
+
+> **Slide 12 image:** Excel mein jo data tha wahi CSV mein tha — pandas ne uss CSV ko read karke DataFrame bana diya ✅
+
+### JSON se:
+```python
+df = pd.read_json('dataset.json')
+```
+
+> **Slide 15 image (JSON Example 1):** JSON mein column-first format tha → Ahmad, Ali, Rashed keys nested the "apples" aur "oranges" andar
+>
+> **Slide 16 image (JSON Example 2):** JSON mein row-first format tha → har person ka apna object tha
+
+### SQL se:
+```python
+import sqlite3
+con = sqlite3.connect("database.db")
+df = pd.read_sql_query("SELECT * FROM purchases", con)
+df = df.set_index('index')   # kisi bhi column ko index banao
+```
+
+---
+
+## 7. 💾 Save Karna (Export)
+
+```python
+df.to_csv('new_dataset.csv')
+df.to_json('new_dataset.json')
+df.to_sql('new_dataset', con)
+```
+
+---
+
+## 8. 🔍 Data Dekhna aur Samajhna — Important Methods
+
+### `.head()` aur `.tail()`
+```python
+movies_df.head()      # pehle 5 rows
+movies_df.head(10)    # pehle 10 rows
+movies_df.tail(2)     # aakhri 2 rows
+```
+
+### `.info()`
+```python
+movies_df.info()
+# Batata hai: rows/columns count, null values, data types, memory usage
+```
+
+### `.shape`
+```python
+movies_df.shape    # (1000, 12) — 1000 rows, 12 columns
+```
+
+### `.describe()`
+```python
+movies_df.describe()           # Numerical columns ka stats (mean, min, max, std)
+movies_df['genre'].describe()  # Categorical column ka stats (unique, top, freq)
+```
+
+---
+
+## 9. ➕➖ Column Operations
+
+### Column Add Karna:
+```python
+df['three'] = pd.Series([10, 20, 30], index=['a', 'b', 'c'])
+df['four'] = df['one'] + df['three']   # existing columns se naya column
+```
+
+### Column Delete Karna:
+```python
+del df['one']        # del function se
+df.pop('two')        # pop function se
+```
+
+---
+
+## 10. ➕➖ Row Operations
+
+### Row Add (append):
+```python
+df2 = pd.DataFrame([[5, 6], [7, 8]], columns=['a', 'b'])
+df = df.append(df2)
+```
+
+### Row Delete (drop):
+```python
+df = df.drop(0)    # index 0 wali row delete karo
+```
+
+---
+
+## 11. ✂️ Slicing
+
+```python
+print(df[2:4])   # index 2 se 3 tak ki rows (4 included nahi)
+```
+
+---
+
+## 12. 🔁 Duplicates Handle Karna
+
+```python
+temp_df = movies_df.append(movies_df)   # double kar diya
+temp_df.drop_duplicates(inplace=True)   # duplicates hata do
+```
+
+**`keep` argument:**
+- `'first'` — pehli copy rakho (default)
+- `'last'` — aakhri copy rakho
+- `False` — saari duplicates hata do
+
+---
+
+## 13. 🔄 Reindexing
+
+```python
+df1.reindex_like(df2)
+# df1 ko df2 ke indexes pe align karo
+# Jo index match nahi karte unhe NaN se fill karo
+```
+
+---
+
+## 14. 🔗 Concatenation
+
+```python
+df3 = pd.concat([df1, df2])   # do DataFrames ko upar-neeche joao
+```
+
+---
+
+## 15. 🏷️ Categorical Data
+
+Jab column mein limited/repetitive values hon (jaise gender, country):
+```python
+cat = pd.Categorical(['a', 'b', 'c', 'a', 'b', 'c'])
+
+# Custom categories ke saath
+cat = pd.Categorical(["a", "c", "c", np.nan], categories=["b", "a", "c"])
+```
+
+**Kab use karo:**
+- String column mein sirf kuch hi different values hon → memory bachti hai
+- Logical order chahiye sorting mein (jaise "one" < "two" < "three")
+
+---
+
+## 🎯 Exam ke liye Quick Cheatsheet
+
+| Method | Kya karta hai |
+|---|---|
+| `pd.DataFrame(data)` | DataFrame banao |
+| `pd.read_csv()` | CSV file padho |
+| `pd.read_json()` | JSON file padho |
+| `pd.read_sql_query()` | SQL se padho |
+| `df.to_csv()` | CSV mein save karo |
+| `df.head(n)` | Pehle n rows dekho |
+| `df.tail(n)` | Aakhri n rows dekho |
+| `df.info()` | Dataset ki info |
+| `df.shape` | Rows × Columns count |
+| `df.describe()` | Stats summary |
+| `df.loc['label']` | Label se row access |
+| `df[2:4]` | Slicing |
+| `df.append(df2)` | Rows add karo |
+| `df.drop(index)` | Row delete karo |
+| `del df['col']` | Column delete (del) |
+| `df.pop('col')` | Column delete (pop) |
+| `df.drop_duplicates()` | Duplicates hatao |
+| `df.describe()` | Statistics dekho |
+| `pd.concat([df1,df2])` | DataFrames join karo |
+| `df.reindex_like(df2)` | Index align karo |
+| `df.set_index('col')` | Koi column index banao |
+
+---
+
+**Kal paper dhamaka kar bhai! 💪** Koi specific topic aur detail mein chahiye toh bol!
