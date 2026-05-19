@@ -1,0 +1,40 @@
+Bhai simple rule hai —
+
+---
+
+## Pehle question padho aur yeh dekho:
+
+**"One by one", "one after another", "first...then"** likha hai?
+→ **Multiplication** (order matter karta hai)
+
+**Sirf "2 balls drawn", "selected"** likha hai?
+→ **Combination** (order matter nahi)
+
+---
+
+## Lekin actually —
+
+> **Dono se same answer aata hai!**
+
+Toh confuse mat ho — jo samajh aaye woh karo 😄
+
+---
+
+## Tera notes wala example:
+
+| Question | Method |
+|---|---|
+| Q1 — "2 balls drawn, same color" | Combination easy hai |
+| Q2 — "1R + 1B" | Combination ya Multiplication dono |
+| Q3 — "one by one with replacement" | **Sirf Multiplication** |
+| Q6 — "one after another" | Multiplication |
+
+---
+
+## Ek line mein:
+
+> **WITH replacement** → hamesha Multiplication
+>
+> **WITHOUT replacement** → dono chalte hain, jo easy lage
+
+Kal paper mein time kam ho toh **Multiplication** karo — fast hota hai! 😊
