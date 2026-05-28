@@ -1,0 +1,5 @@
+Handling Noisy Data
+Binning: Sort data into "bins" and smooth. Smooth by bin mean or boundary.
+Regression: Fit a model and replace noisy values with predicted values
+Clustering: Group data — points far from all clusters are noise
+Manual correction: Domain expert reviews outliers
