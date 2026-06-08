@@ -1,0 +1,14 @@
+# Simple lambda
+df['age_plus10'] = df['age'].apply(lambda x: x + 10)
+
+# Custom function
+def categorize(age):
+    return 'young' if age < 25 else 'senior'
+
+df['category'] = df['age'].apply(categorize)
+
+# Row-wise (axis=1 = row pe kaam karo)
+df['full_info'] = df.apply(
+    lambda row: f"{row['name']} from {row['city']}",
+    axis=1
+)
